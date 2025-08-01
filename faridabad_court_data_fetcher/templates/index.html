@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mock Court Data Fetcher</title>
+</head>
+<body style="margin: 0; font-family: Arial; background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvknoRNsg9urKMm9QWce6H34oU0bTnLsSyQQ&s'); background-size: cover; background-position: center; background-repeat: no-repeat; min-height: 100vh; display: flex; justify-content: center; align-items: center;">
+
+    <div style="background-color: rgba(255, 255, 255, 0.92); padding: 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); width: 350px;">
+        <h2 style="text-align: center; color: #333;">Faridabad Court Case Demo</h2>
+
+        <form method="POST" style="text-align: left;">
+            <input name="case_type" placeholder="Case Type (e.g. CS)" required
+                   style="padding: 10px; margin: 8px 0; width: 100%;"><br>
+
+            <input name="case_number" placeholder="Case Number (e.g. 1234)" required
+                   style="padding: 10px; margin: 8px 0; width: 100%;"><br>
+
+            <input name="case_year" placeholder="Filing Year (e.g. 2022)" required
+                   style="padding: 10px; margin: 8px 0; width: 100%;"><br>
+
+            <button type="submit" style="padding: 10px; margin: 10px 0; width: 100%; background-color: #4CAF50; color: white; border: none; border-radius: 5px;">
+                Fetch
+            </button>
+        </form>
+
+        {% if result %}
+        <div style="margin-top: 20px; padding: 10px; background: #f2f2f2; border-radius: 5px;">
+            {% if result.error %}
+                <p style="color:red;">{{ result.error }}</p>
+            {% else %}
+                <h3 style="color: #444;">Case Details:</h3>
+                <p><strong>Parties:</strong> {{ result.parties }}</p>
+                <p><strong>Filing Date:</strong> {{ result.filing_date }}</p>
+                <p><strong>Next Hearing:</strong> {{ result.next_hearing }}</p>
+
+                {% if result.orders %}
+                    <h4 style="color: #555;">Orders:</h4>
+                    <ul>
+                        {% for order in result.orders %}
+                            <li><a href="{{ order.link }}" target="_blank">{{ order.title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+
+</body>
+</html>
